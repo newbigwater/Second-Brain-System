@@ -1,0 +1,138 @@
+# 📌 작업 지시서 (Work Order)
+문서 유형: Podo 모드 품질 보완
+대상: English Learning Helper 지침 관리자
+우선순위: High
+작업 일자: 2026-02-23
+관련 모드: Podo Mode
+관련 주차: Start 2 - Week 4
+
+---
+
+## 1. 작업 배경
+
+Start 2 Week 4 Podo 정리 결과에서  
+명사 13개 항목이 Words 섹션에 포함되지 않은 사례 발생.
+
+누락 단어 예시:
+- language
+- department
+- tutor
+- picture
+- tea
+- basketball
+- seafood
+- suitcase
+- address
+- phone number
+- novel
+- type
+- everything
+
+원인 분석 결과,
+Words 추출 범위가 “Day 1 단어 학습 리스트”로 제한되었으며,
+문법/대화/패턴/체크리스트 영역의 어휘는 포함되지 않음.
+
+이는 Podo 모드 전체 주간 통합 기준에 부합하지 않음.
+
+---
+
+## 2. 문제 정의
+
+현재 Podo 모드 Words 추출 기준이 명확히 정의되어 있지 않음.
+
+### 현 상태
+- Words 추출 기준: 단어 학습 리스트 중심
+- Grammar/Conversation 영역 어휘 자동 통합 없음
+- Validation은 Words 내부 비교만 수행
+
+### 문제점
+- 주간 통합 정리라는 목적에 불충분
+- 실제 학습 어휘 Coverage 불완전
+- Validation 통과에도 품질 결함 발생 가능
+
+---
+
+## 3. 요구 사항 (Requirement)
+
+### REQ-01
+Words 추출 범위를 다음 전체 영역으로 확장할 것:
+
+1. 단어 학습 리스트
+2. 문법 예문
+3. 문법 연습 문장
+4. 대화문
+5. 패턴 예문
+6. 미션 체크리스트
+
+### REQ-02
+“해당 주차 원문에 1회 이상 등장한 실질 어휘(학습 대상 명사/동사/형용사/부사/표현)”는
+모두 Words 섹션에 포함.
+
+### REQ-03
+WordsSet 생성 로직을 다음 단계로 변경:
+
+Step 1. 전체 주차 텍스트 통합
+Step 2. 중복 제거
+Step 3. 학습 대상 품사 필터링
+Step 4. Words 테이블 생성
+Step 5. PracticeSet 자동 동기화
+
+### REQ-04
+Validation 로직 강화:
+
+기존:
+- Words 개수 = Practice 개수
+
+추가:
+- Source Vocabulary Count (전체 등장 어휘 수)
+- WordsSet Coverage Ratio
+- 누락 단어 자동 리포트
+
+---
+
+## 4. 설계 변경 제안 (Design Proposal)
+
+### DES-01: Words Extraction Policy 추가
+
+Persona Output Template 03.02에 다음 문구 명시:
+
+> Words는 단어 학습 리스트뿐 아니라,
+> 해당 주차 문법/대화/패턴/연습/체크리스트에 등장한
+> 모든 학습 대상 어휘를 통합하여 생성한다.
+
+---
+
+### DES-02: Coverage Validation Rule 추가
+
+Practice Validation Checklist에 다음 항목 추가:
+
+- [ ] 전체 주차 원문 기반 WordsSet 생성 여부 확인
+- [ ] Grammar/Conversation 어휘 누락 여부 확인
+- [ ] Source Vocabulary vs WordsSet 비교 완료
+
+---
+
+## 5. 기대 효과
+
+- Podo 모드 정합성 강화
+- Validation PASS ≠ 품질 결함 문제 해결
+- 학습자 기준 완전 통합 어휘 관리 가능
+- 재정리 요청 감소
+
+---
+
+## 6. 최종 요청
+
+1. Persona Output Template v1.2 → v1.3 개정 검토
+2. Words Extraction Policy 공식 명문화
+3. Validation 강화 항목 추가
+4. 재발 방지 체크리스트 포함
+
+---
+
+## 7. 상태
+
+현재 버전: v1.2
+요청 변경 버전: v1.3 (Draft)
+
+작업 승인 요청드립니다.
